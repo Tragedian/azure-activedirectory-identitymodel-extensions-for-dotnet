@@ -25,16 +25,15 @@
 //
 //------------------------------------------------------------------------------
 
+using Microsoft.IdentityModel.Json.Linq;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
-using Microsoft.IdentityModel.Logging;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using TokenLogMessages = Microsoft.IdentityModel.Tokens.LogMessages;
 
 namespace Microsoft.IdentityModel.JsonWebTokens
@@ -243,7 +242,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                 if (signingCredentials.Key is X509SecurityKey x509SecurityKey)
                     header[JwtHeaderParameterNames.X5t] = x509SecurityKey.X5t;
 
-                rawHeader = Base64UrlEncoder.Encode(Encoding.UTF8.GetBytes(header.ToString(Formatting.None)));
+                rawHeader = Base64UrlEncoder.Encode(Encoding.UTF8.GetBytes(header.ToString(Microsoft.IdentityModel.Json.Formatting.None)));
                 JsonWebTokenManager.KeyToHeaderCache.TryAdd(JsonWebTokenManager.GetHeaderCacheKey(signingCredentials), rawHeader);
             }
 
@@ -260,7 +259,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                     payload.Add(JwtRegisteredClaimNames.Nbf, EpochTime.GetIntDate(now).ToString());
             }
        
-            var rawPayload = Base64UrlEncoder.Encode(Encoding.UTF8.GetBytes(payload.ToString(Formatting.None)));
+            var rawPayload = Base64UrlEncoder.Encode(Encoding.UTF8.GetBytes(payload.ToString(Microsoft.IdentityModel.Json.Formatting.None)));
             var message = rawHeader + "." + rawPayload;
             var rawSignature = JwtTokenUtilities.CreateEncodedSignature(message, signingCredentials);
 
@@ -527,7 +526,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens
 
                 try
                 {
-                    var rawHeader = Base64UrlEncoder.Encode(Encoding.UTF8.GetBytes(header.ToString(Newtonsoft.Json.Formatting.None)));
+                    var rawHeader = Base64UrlEncoder.Encode(Encoding.UTF8.GetBytes(header.ToString(Microsoft.IdentityModel.Json.Formatting.None)));
                     var encryptionResult = encryptionProvider.Encrypt(plainText, Encoding.ASCII.GetBytes(rawHeader));
                     return string.Join(".", rawHeader, string.Empty, Base64UrlEncoder.Encode(encryptionResult.IV), Base64UrlEncoder.Encode(encryptionResult.Ciphertext), Base64UrlEncoder.Encode(encryptionResult.AuthenticationTag));
 
@@ -595,7 +594,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens
 
                 try
                 {
-                    var rawHeader = Base64UrlEncoder.Encode(Encoding.UTF8.GetBytes(header.ToString(Newtonsoft.Json.Formatting.None)));
+                    var rawHeader = Base64UrlEncoder.Encode(Encoding.UTF8.GetBytes(header.ToString(Microsoft.IdentityModel.Json.Formatting.None)));
                     var encryptionResult = encryptionProvider.Encrypt(plainText, Encoding.ASCII.GetBytes(rawHeader));
                     return string.Join(".", rawHeader, Base64UrlEncoder.Encode(wrappedKey), Base64UrlEncoder.Encode(encryptionResult.IV), Base64UrlEncoder.Encode(encryptionResult.Ciphertext), Base64UrlEncoder.Encode(encryptionResult.AuthenticationTag));
                 }
