@@ -91,14 +91,7 @@ namespace Microsoft.IdentityModel.Tokens
             try
             {
                 LogHelper.LogVerbose(LogMessages.IDX10806, json, this);
-                if (jsonSerializerSettings != null)
-                {
-                    JsonConvert.PopulateObject(json, this, jsonSerializerSettings);
-                }
-                else
-                {
-                    JsonConvert.PopulateObject(json, this);
-                }
+                JsonConvert.PopulateObject(json, this);
             }
             catch (Exception ex)
             {
