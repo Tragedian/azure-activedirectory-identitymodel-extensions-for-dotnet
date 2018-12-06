@@ -638,7 +638,7 @@ namespace Microsoft.IdentityModel.Protocols.OpenIdConnect.Tests
             
             public string Json { get; set; }
 
-            public JObject JObject { get; set; }
+            internal JObject JObject { get; set; }
         }
     }
 }
