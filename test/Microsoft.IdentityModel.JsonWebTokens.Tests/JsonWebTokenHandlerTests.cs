@@ -25,6 +25,7 @@
 //
 //------------------------------------------------------------------------------
 
+using Microsoft.IdentityModel.Json;
 using Microsoft.IdentityModel.Json.Linq;
 using Microsoft.IdentityModel.TestUtils;
 using Microsoft.IdentityModel.Tokens;
